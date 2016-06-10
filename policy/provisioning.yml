@@ -1,0 +1,27 @@
+---
+- !policy 
+  id: provisioning
+  body:
+    - &variables
+      - !variable region
+      - !variable access_key_id
+      - !variable 
+        id: secret_access_key
+        annotations:
+          rotation/rotator: aws/secret_key
+          rotation/ttl: P1D
+      - !variable bootstrap_private_key
+
+    - !layer
+    - !group
+
+    - !permit
+      role: !layer
+      privilege:
+        - read
+        - execute
+      resource: *variables
+     
+    - !grant
+      role: !group
+      member: !layer

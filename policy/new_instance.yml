@@ -1,0 +1,20 @@
+- !policy
+  id: %POLICY_ID%
+  body:
+    - &variables
+      - !variable 
+        id: private_key
+        annotations:
+          rotation/ttl: %TIME_TO_LIVE%
+          rotation/rotator: ssh/key_pair
+      - !variable host
+      - !variable login
+
+    - !group
+
+    - !permit
+        role: !group
+        privilege:
+          - read
+          - execute
+        resource: *variables

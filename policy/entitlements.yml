@@ -1,0 +1,6 @@
+---
+- !host provisioner
+
+- !grant
+  role: !layer provisioning
+  member: !host provisioner
