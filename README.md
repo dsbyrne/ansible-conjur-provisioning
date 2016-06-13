@@ -24,13 +24,8 @@ $ docker exec -it ansibleconjurprovisioning_ansible_1 bash
 
 Input values for the following variables:
 
-* **provisioning/secret_access_key** AWS secret access key
-* **provisioning/access_key_id** AWS key ID
-* **provisioning/region** AWS region
-* **provisioning/bootstrap_private_key** Private key to initially launch machines with.
-
 ```
-/mnt/ansible-ec2# policy=provisioning
+/mnt/ansible-ec2# policy=ansible/ec2
 /mnt/ansible-ec2# conjur variable values add $policy/region us-east-1
 Value added
 /mnt/ansible-ec2# conjur variable values add $policy/access_key_id 29ad52b21de281245ed19276
@@ -55,9 +50,9 @@ CONFIG
 ## Login as the `ansible` host
 
 ```
-/mnt/ansible-ec2# API_KEY="$(conjur host rotate_api_key -h provisioner)" bash -c "conjur authn login -p \$API_KEY host/provisioner"
+/mnt/ansible-ec2# API_KEY="$(conjur host rotate_api_key -h docker/ansible)" bash -c "conjur authn login -p \$API_KEY host/docker/ansible"
 /mnt/ansible-ec2# conjur authn whoami 
-{"account":"cucumber","username":"host/provisioner"}
+{"account":"cucumber","username":"host/docker/ansible"}
 ```
 
 ## Launch the host

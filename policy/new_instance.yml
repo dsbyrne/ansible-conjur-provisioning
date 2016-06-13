@@ -1,5 +1,8 @@
 - !policy
-  id: %POLICY_ID%
+  id: ansible/hosts/%HOST_ID%
+  annotations:
+    host/instance-id: %HOST_ID%
+    host/ip-address: %HOST_IP%
   body:
     - &variables
       - !variable 
@@ -10,10 +13,10 @@
       - !variable host
       - !variable login
 
-    - !group
+    - !group secrets-users
 
     - !permit
-        role: !group
+        role: !group secrets-users
         privilege:
           - read
           - execute
