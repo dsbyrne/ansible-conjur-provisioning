@@ -1,6 +1,6 @@
 ---
-- !host provisioner
+- !host docker/ansible
 
 - !grant
-  role: !layer provisioning
-  member: !host provisioner
+  role: !layer ansible
+  member: !host docker/ansible
