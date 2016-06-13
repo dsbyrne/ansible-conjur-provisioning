@@ -11,6 +11,7 @@
           rotation/rotator: aws/secret_key
           rotation/ttl: P1D
       - !variable bootstrap_private_key
+      - !variable key_name
 
     - !layer
     - !group

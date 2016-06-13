@@ -1,0 +1,17 @@
+conjur:
+  image: registry.tld/conjur-appliance-cuke-master:4.7-stable
+ansible:
+  build: docker
+  volumes:
+    - $HOME/.ssh:/root/.ssh
+    - .:/mnt/ansible-ec2
+  links:
+    - conjur:conjur
+ui:
+  image: conjurinc/conjur-ui
+  environment:
+    CONJUR_APPLIANCE_URL: https://conjur
+  links:
+    - conjur:conjur
+  ports:
+    - 443
