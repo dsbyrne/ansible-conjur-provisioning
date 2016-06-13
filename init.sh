@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-conjur policy load --as-group security_admin policy/provisioning.yml
-conjur policy load --as-group security_admin policy/entitlements.yml
+if [ ! -f /root/.conjurrc ]; then
+	conjur init -h conjur
+fi
 
-API_KEY="$(conjur host rotate_api_key -h provisioner)" bash -c "conjur authn login -p \$API_KEY host/provisioner"
+if [ ! -f /root/.netrc ]; then
+	conjur authn login
+fi
+
+conjur policy load --as-group security_admin policy/ansible.yml
+conjur policy load --as-group security_admin policy/entitlements.yml

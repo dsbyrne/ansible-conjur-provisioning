@@ -35,3 +35,5 @@ RUN mkdir -p /var/run/sshd
 EXPOSE 22
 
 CMD ["/usr/bin/supervisord"]
+
+WORKDIR /mnt/ansible-ec2/

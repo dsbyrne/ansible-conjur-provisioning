@@ -1,19 +1,19 @@
 ---
 - !policy 
-  id: provisioning
+  id: ansible
   body:
     - &variables
-      - !variable region
-      - !variable access_key_id
+      - !variable ec2/region
+      - !variable ec2/access_key_id
       - !variable 
-        id: secret_access_key
+        id: ec2/secret_access_key
         annotations:
           rotation/rotator: aws/secret_key
           rotation/ttl: P1D
-      - !variable bootstrap_private_key
+      - !variable ec2/bootstrap_private_key
+      - !variable ec2/key_name
 
     - !layer
-    - !group
 
     - !permit
       role: !layer
@@ -21,7 +21,3 @@
         - read
         - execute
       resource: *variables
-     
-    - !grant
-      role: !group
-      member: !layer

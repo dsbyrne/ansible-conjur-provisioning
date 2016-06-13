@@ -1,16 +1,16 @@
 ---
 - name: Launch Instance
   ec2:
-    key_name: bootstrap
-    instance_type: t2.nano
+    key_name: "{{ lookup('env','SSH_KEY_NAME') }}"
+    instance_type: m3.medium
     image: ami-fce3c696
     wait: yes
     count: 1
-    group_id: sg-725c1016
-    vpc_subnet_id: subnet-8c5dc8d5
-    assign_public_ip: yes
+    group_id: "{{ lookup('env', 'GROUP_ID') }}"
+    vpc_subnet_id: "{{ lookup('env', 'VPC_SUBNET_ID') }}"
+    assign_public_ip: true
   register: ec2
-    
+
 - name: Add the new EC2 host(s)
   add_host: name={{item.public_ip}}
   with_items: "{{ec2.instances}}"
@@ -20,5 +20,5 @@
   with_items: "{{ec2.instances}}"
   
 - name: Load and populate Conjur policy
-  local_action: script /mnt/ansible-ec2/load_policy.sh {{item.public_ip}}
+  local_action: script /mnt/ansible-ec2/load_policy.sh {{item.id}} {{item.public_ip}}
   with_items: "{{ec2.instances}}"

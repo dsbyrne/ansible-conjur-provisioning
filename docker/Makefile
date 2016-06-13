@@ -1,10 +1,9 @@
 IMAGE_NAME=ansible-ec2
-IMAGE_TAG=lastest
+IMAGE_TAG=latest
 
-CONJUR_APPLIANCE=conjur
-CONJUR_CERT_PATH=conjur-demo.pem
+CONJUR_APPLIANCE ?= conjur
 
-.PHONY: all build run ssh clean clean-all
+.PHONY: all build run ssh clean clean-images
 all:
 	build
 
@@ -13,10 +12,7 @@ build:
 		
 run:
 	docker run -d \
-	--link $(CONJUR_APPLIANCE) \
-	-v $$HOME/.netrc:/root/.netrc \
-	-v $$HOME/.conjurrc:/root/.conjurrc \
-	-v $$HOME/$(CONJUR_CERT_PATH):/root/$(CONJUR_CERT_PATH) \
+	--link $(CONJUR_APPLIANCE):conjur \
 	-v $(CURDIR)/../:/mnt/ansible-ec2 \
 	$(IMAGE_NAME):$(IMAGE_TAG) 
 
